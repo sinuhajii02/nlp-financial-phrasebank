@@ -47,6 +47,10 @@ def validate_probs(probs: Any) -> np.ndarray:
         raise ValueError("probs must contain at least one sample")
     if not np.isfinite(probabilities).all():
         raise ValueError("probs must contain only finite values")
+    if ((probabilities < 0) | (probabilities > 1)).any():
+        raise ValueError("probs must be between 0 adn 1")
+    if not np.allclose(probabilities.sum(axis=1), 1, atol=1e-3):
+        raise ValueError("probs must sum to 1")
     return probabilities
 
 
