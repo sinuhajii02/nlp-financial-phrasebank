@@ -11,7 +11,7 @@ def get_hard_sample_indices(probs: Any, percentile: float = 20.0) -> tuple[np.nd
 
     probabilities = validate_probs(probs)
     margins = calculate_top_two_margins(probabilities)
-    margin_threshold = float(np.percentile(margins, percentile))
+    margin_threshold = float(np.round(np.percentile(margins, percentile), 12))
     hard_indices = np.flatnonzero(margins <= margin_threshold)
     return hard_indices, margin_threshold
 
@@ -24,7 +24,7 @@ def split_dataset_by_margin(df: pd.DataFrame, probs: Any, percentile: float = 20
         raise ValueError("df and probs must contain the same number of samples")
 
     margins = calculate_top_two_margins(probabilities)
-    margin_threshold = float(np.percentile(margins, percentile))
+    margin_threshold = float(np.round(np.percentile(margins, percentile), 12))
 
     evaluated = df.copy()
     evaluated["margin"] = margins
