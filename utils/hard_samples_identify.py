@@ -4,7 +4,12 @@ import pandas as pd
 
 
 
-def get_hard_sample_indices(probs: Any, percentile: float = 20.0) -> tuple[np.ndarray, float]:
+DEFAULT_MARGIN_THRESHOLD = 0.2
+
+
+def get_hard_sample_indices(
+    probs: Any, percentile: float = 20.0
+) -> tuple[np.ndarray, float]:
     # Return indices at or below a bottom-percentile margin cutoff.
     # Ties at the threshold are included, so the result can contain slightly more
     # than the requested percentage when multiple samples share a margin.
@@ -16,24 +21,59 @@ def get_hard_sample_indices(probs: Any, percentile: float = 20.0) -> tuple[np.nd
     return hard_indices, margin_threshold
 
 
-def split_dataset_by_margin(df: pd.DataFrame, probs: Any, percentile: float = 20.0):
-    #Return the data split for a DataFrame, giving hard and easy and the margin threshold
+def get_hard_sample_indices_by_margin(
+    probs: Any, margin_threshold: float = DEFAULT_MARGIN_THRESHOLD
+) -> np.ndarray:
+    """Return indices whose top-two probability margin is below a fixed threshold."""
+    probabilities = validate_probs(probs)
+    margins = calculate_top_two_margins(probabilities)
+    if not 0 <= margin_threshold <= 1:
+        raise ValueError("margin_threshold must be between 0 and 1")
+    return np.flatnonzero(margins <= margin_threshold)
 
+
+def add_is_hard(
+    df: pd.DataFrame,
+    probs: Any,
+    margin_threshold: float = DEFAULT_MARGIN_THRESHOLD,
+) -> pd.DataFrame:
+    """Return a copy of ``df`` with baseline margin and ``is_hard`` columns."""
     probabilities = validate_probs(probs)
     if len(df) != len(probabilities):
         raise ValueError("df and probs must contain the same number of samples")
+    if not 0 <= margin_threshold <= 1:
+        raise ValueError("margin_threshold must be between 0 and 1")
 
     margins = calculate_top_two_margins(probabilities)
-    margin_threshold = float(np.round(np.percentile(margins, percentile), 12))
-
     evaluated = df.copy()
     evaluated["margin"] = margins
     evaluated["pred_class"] = np.argmax(probabilities, axis=1)
-    hard_mask = margins <= margin_threshold
+    evaluated["is_hard"] = margins <= margin_threshold
+    return evaluated
+
+
+def split_dataset_by_margin(
+    df: pd.DataFrame,
+    probs: Any,
+    percentile: float = 20.0,
+    margin_threshold: float | None = None,
+):
+    """Split a dataframe by a fixed threshold or, for compatibility, a percentile."""
+
+    if margin_threshold is None:
+        probabilities = validate_probs(probs)
+        if len(df) != len(probabilities):
+            raise ValueError("df and probs must contain the same number of samples")
+        margins = calculate_top_two_margins(probabilities)
+        margin_threshold = float(np.round(np.percentile(margins, percentile), 12))
+        evaluated = add_is_hard(df, probabilities, margin_threshold)
+    else:
+        evaluated = add_is_hard(df, probs, margin_threshold)
+    hard_mask = evaluated["is_hard"].to_numpy()
 
     hard_df = evaluated.loc[hard_mask].reset_index(drop=True)
     easy_df = evaluated.loc[~hard_mask].reset_index(drop=True)
-    return hard_df, easy_df, margin_threshold
+    return hard_df, easy_df, float(margin_threshold)
 
 
 #Utils
@@ -48,7 +88,7 @@ def validate_probs(probs: Any) -> np.ndarray:
     if not np.isfinite(probabilities).all():
         raise ValueError("probs must contain only finite values")
     if ((probabilities < 0) | (probabilities > 1)).any():
-        raise ValueError("probs must be between 0 adn 1")
+        raise ValueError("probs must be between 0 and 1")
     if not np.allclose(probabilities.sum(axis=1), 1, atol=1e-3):
         raise ValueError("probs must sum to 1")
     return probabilities

@@ -1,7 +1,12 @@
 import numpy as np
 import pandas as pd
 import pytest
-from utils.hard_samples_identify import get_hard_sample_indices, split_dataset_by_margin
+from utils.hard_samples_identify import (
+    add_is_hard,
+    get_hard_sample_indices,
+    get_hard_sample_indices_by_margin,
+    split_dataset_by_margin,
+)
 
 # To run use pytest hard_sample_test.py on /test
 
@@ -76,3 +81,20 @@ def test_split_dataset_mismatch(train_dataset):
     
     with pytest.raises(ValueError, match="same number of samples"):
         split_dataset_by_margin(df, probs_short)
+
+
+def test_add_is_hard_uses_fixed_margin_threshold():
+    df = pd.DataFrame({"sentence": ["uncertain", "confident"]})
+    probs = np.array([
+        [0.45, 0.45, 0.10],
+        [0.90, 0.05, 0.05],
+    ])
+
+    evaluated = add_is_hard(df, probs, margin_threshold=0.2)
+
+    assert evaluated["is_hard"].tolist() == [True, False]
+    assert evaluated["margin"].tolist() == [0.0, 0.85]
+    np.testing.assert_array_equal(
+        get_hard_sample_indices_by_margin(probs, margin_threshold=0.2),
+        np.array([0]),
+    )
