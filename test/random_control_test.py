@@ -7,8 +7,7 @@ import pytest
 from utils.hard_samples_identify import get_hard_sample_indices
 from utils.random_control import (
     ARCHITECTURE, CONDITION, METRIC_COLUMNS, TEAM_COLUMNS,
-    average_wordpiece_embeddings, oof_logreg_probs, sample_random_subset,
-    score_predictions, summarize_seeds, to_metrics_rows, update_metrics_csv,
+    sample_random_subset, score_predictions, summarize_seeds, to_metrics_rows, update_metrics_csv,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -31,30 +30,17 @@ def test_random_subset_reproducible_and_seed_dependent():
     assert not np.array_equal(a, c)
 
 
+def test_random_subset_matches_experiment_7():
+    # experiment 7 draws np.random.default_rng(seed).choice(len(y_train), size=n, replace=False)
+    for seed in [42, 43, 44, 45, 46]:
+        expected = np.random.default_rng(seed).choice(2902, size=580, replace=False)
+        assert np.array_equal(sample_random_subset(2902, 580, seed), expected)
+
+
 @pytest.mark.parametrize("n_extra", [0, -1, 101])
 def test_random_subset_invalid_size(n_extra):
     with pytest.raises(ValueError):
         sample_random_subset(100, n_extra, seed=0)
-
-
-# ---------- FinBERT -> vocabulary mapping ----------
-def test_average_wordpiece_embeddings():
-    # word pieces: 0 "profit", 1 "##able", 2 "number", 3 "loss"
-    pieces = np.array([[1.0, 0.0], [0.0, 1.0], [5.0, 5.0], [2.0, 2.0]])
-    ids = {"profit": [0], "profitable": [0, 1], "number": [2], "loss": [3], "zzz": []}
-    word_index = {"<OOV>": 1, "profit": 2, "profitable": 3, "<num>": 4, "loss": 5, "zzz": 6}
-
-    matrix, stats = average_wordpiece_embeddings(word_index, pieces, lambda w: ids[w])
-
-    assert matrix.shape == (7, 2)
-    assert np.all(matrix[0] == 0)                      # padding row is zero
-    assert np.allclose(matrix[2], [1.0, 0.0])          # single piece
-    assert np.allclose(matrix[3], [0.5, 0.5])          # mean of two pieces
-    assert np.allclose(matrix[4], [5.0, 5.0])          # <num> -> "number"
-    expected_fallback = matrix[[2, 3, 4, 5]].mean(axis=0)
-    assert np.allclose(matrix[1], expected_fallback)   # <OOV> -> mean vector
-    assert np.allclose(matrix[6], expected_fallback)   # word with no pieces -> mean vector
-    assert stats == {"n_words": 6, "n_single_piece": 3, "n_multi_piece": 1, "n_fallback": 2}
 
 
 # ---------- scoring ----------
@@ -90,30 +76,19 @@ def test_score_matches_teammate_baseline():
     assert 0.19 <= len(hard_idx) / len(val) <= 0.25  # bottom ~20% by margin (ties may add a few)
 
 
-# ---------- out-of-fold hard flags ----------
-def test_oof_hard_flags_on_train():
-    train = pd.read_csv(ROOT / "data" / "train.csv")
-    probs = oof_logreg_probs(train)
-    assert probs.shape == (len(train), 3)
-    assert np.allclose(probs.sum(axis=1), 1, atol=1e-6)
-    hard_idx, _ = get_hard_sample_indices(probs)
-    assert 0.19 <= len(hard_idx) / len(train) <= 0.25
-
-
 # ---------- bookkeeping ----------
 def _seed_df():
     rows = []
     for emb in ["finbert_frozen", "finbert_finetuned"]:
         for seed, f1 in [(42, 0.6), (43, 0.8)]:
-            row = {"seed": seed, "embedding_config": emb, "phase": "after_extra"}
+            row = {"seed": seed, "embedding_config": emb}
             row.update({c: f1 for c in METRIC_COLUMNS})
             rows.append(row)
-            rows.append({**row, "phase": "stage1", **{c: 0.0 for c in METRIC_COLUMNS}})
     return pd.DataFrame(rows)
 
 
 def test_summary_and_metrics_rows():
-    mean, std = summarize_seeds(_seed_df())  # only the "after_extra" phase
+    mean, std = summarize_seeds(_seed_df())
     assert mean.loc["finbert_frozen", "f1_overall"] == pytest.approx(0.7)
     assert std.loc["finbert_frozen", "f1_overall"] == pytest.approx(np.std([0.6, 0.8], ddof=1))
 
