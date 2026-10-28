@@ -1,5 +1,9 @@
 condition,embedding_config,architecture,accuracy_overall,f1_overall,accuracy_hard,f1_hard,accuracy_nonhard,f1_nonhard,f1_negative,f1_neutral,f1_positive
 baseline,tfidf_1-2gram,logreg,0.7766287487073423,0.7172412958027023,,,,,0.631578947368421,0.845771144278607,0.674373795761079
 baseline,random_init_100d,lstm_64_dropout,0.6980351602895554,0.4646258503401361,,,,,0.0,0.8326530612244898,0.5612244897959183
+<<<<<<< Updated upstream,,,,,,,,,,,
 baseline,tfidf_1-2gram,logreg,0.7766287487073423,0.7172412958027023,,,,,0.631578947368421,0.845771144278607,0.674373795761079
 baseline,random_init_100d,lstm_64_dropout,0.6980351602895554,0.4646258503401361,,,,,0.0,0.8326530612244898,0.5612244897959183
+=======,,,,,,,,,,,
+>>>>>>> Stashed changes,,,,,,,,,,,
+llm_benchmark,native_qwen,qwen2.5-7b-instruct,0.7766,0.786,0.6667,0.6743,0.7973,0.8085,0.8374,0.7938,0.7267
