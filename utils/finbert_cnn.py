@@ -47,12 +47,16 @@ def load_finbert_inputs(*dfs, model_name: str = FINBERT_NAME):
 
 def build_cnn(embedding_matrix: np.ndarray, trainable: bool = False):
     inputs = keras.Input(shape=(MAX_LEN,), dtype="int32")
-    x = layers.Embedding(
+    # Weights are copied in with set_weights below, not a Constant initializer: clone_model would
+    # serialize the whole FinBERT matrix into the config and run out of memory. "zeros" draws no
+    # random numbers, so the other layers get the same initialisation as with Constant.
+    embedding = layers.Embedding(
         embedding_matrix.shape[0],
         embedding_matrix.shape[1],
-        embeddings_initializer=keras.initializers.Constant(embedding_matrix),
+        embeddings_initializer="zeros",
         trainable=trainable, mask_zero=False,
-    )(inputs)
+    )
+    x = embedding(inputs)
     x = layers.SpatialDropout1D(0.3)(x)
     x = layers.Conv1D(64, 3, activation="relu")(x)
     x = layers.GlobalMaxPooling1D()(x)
@@ -60,6 +64,7 @@ def build_cnn(embedding_matrix: np.ndarray, trainable: bool = False):
     x = layers.Dropout(0.5)(x)
     outputs = layers.Dense(len(LABELS), activation="softmax")(x)
     model = keras.Model(inputs, outputs)
+    embedding.set_weights([embedding_matrix])
     model.compile(optimizer=keras.optimizers.Adam(1e-3), loss="categorical_crossentropy", metrics=["accuracy"])
     return model
 
@@ -111,6 +116,18 @@ def select_hard(oof_probs, val_probs, percentiles=PERCENTILES) -> dict:
         hard_selection[percentile] = {"train_indices": train_indices, "val_indices": val_indices,
                                       "train_cutoff": train_cutoff}
     return hard_selection
+
+
+def load_hard_selection(percentile: int, hard_dir: str = "../results/hard_samples"):
+    """(train_indices, val_indices) of the hard sets saved by notebook 07 (exp7_{train,val}_hard.csv).
+
+    Re-training the out-of-fold models does not give bit-identical hard sets, so every experiment
+    loads the saved ones to work on exactly the same sentences.
+    """
+    import pandas as pd
+
+    return tuple(np.flatnonzero(pd.read_csv(f"{hard_dir}/exp7_{split}_hard.csv")[f"is_hard_p{percentile}"])
+                 for split in ["train", "val"])
 
 
 def fine_tune(baseline_model, X_train, y_train, X_val, y_val, weighted_indices, seed,

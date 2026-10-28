@@ -102,10 +102,21 @@ def run_random_control(baseline_model, data: dict, trainable: bool, seed: int,
     `baseline_model` must have been trained with the same `trainable` setting.
     `data` holds X_train, y_train, X_val, y_val (FinBERT word-piece ids, label ids).
     """
+    subset_idx = sample_random_subset(len(data["y_train"]), len(hard_train_idx), seed)
+    return run_weighted_finetune(baseline_model, data, trainable, seed, subset_idx,
+                                 hard_train_idx, val_hard_idx, weight)
+
+
+def run_weighted_finetune(baseline_model, data: dict, trainable: bool, seed: int, subset_idx: np.ndarray,
+                          hard_train_idx: np.ndarray, val_hard_idx: np.ndarray,
+                          weight: float | None = None) -> dict:
+    """Fine-tune a copy of the baseline with `subset_idx` up-weighted and score it on validation.
+
+    Shared by the random control (random subset) and the targeted runs (subset = hard set).
+    """
     from utils.finbert_cnn import DEFAULT_WEIGHT, fine_tune
 
     weight = DEFAULT_WEIGHT if weight is None else weight
-    subset_idx = sample_random_subset(len(data["y_train"]), len(hard_train_idx), seed)
     model = fine_tune(baseline_model, data["X_train"], data["y_train"], data["X_val"], data["y_val"],
                       subset_idx, seed, weight)
 
@@ -134,9 +145,9 @@ def summarize_seeds(seed_df: pd.DataFrame):
     return grouped.mean(), grouped.std(ddof=1)
 
 
-def to_metrics_rows(mean_df: pd.DataFrame) -> pd.DataFrame:
+def to_metrics_rows(mean_df: pd.DataFrame, condition: str = CONDITION) -> pd.DataFrame:
     rows = mean_df.reset_index()
-    rows.insert(0, "condition", CONDITION)
+    rows.insert(0, "condition", condition)
     rows.insert(2, "architecture", ARCHITECTURE)
     return rows[TEAM_COLUMNS]
 

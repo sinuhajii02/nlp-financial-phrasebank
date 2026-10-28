@@ -111,3 +111,12 @@ def test_update_metrics_csv_keeps_other_rows_and_is_idempotent(tmp_path):
     assert len(out) == 3
     assert list(pd.read_csv(path).columns) == TEAM_COLUMNS
     assert (out["condition"] == "baseline").sum() == 1
+
+
+# ---------- shared hard sets ----------
+def test_load_hard_selection_matches_saved_exp7_sets():
+    from utils.finbert_cnn import load_hard_selection
+
+    train_idx, val_idx = load_hard_selection(20, hard_dir=ROOT / "results" / "hard_samples")
+    assert len(train_idx) == 580 and len(val_idx) == 97
+    assert np.all(np.diff(train_idx) > 0) and np.all(np.diff(val_idx) > 0)
