@@ -10,7 +10,7 @@ from utils.hard_samples_identify import (
 
 # To run use pytest hard_sample_test.py on /test
 
-# UNit Testing
+# Unit Testing
 def test_basic():
     probs = np.array([
         [0.90, 0.05, 0.05],

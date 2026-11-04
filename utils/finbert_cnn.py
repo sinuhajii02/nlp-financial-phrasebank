@@ -118,15 +118,14 @@ def select_hard(oof_probs, val_probs, percentiles=PERCENTILES) -> dict:
     return hard_selection
 
 
-def load_hard_selection(percentile: int, hard_dir: str = "../results/hard_samples"):
-    """(train_indices, val_indices) of the hard sets saved by notebook 07 (exp7_{train,val}_hard.csv).
+def load_hard_selection(percentile: int, hard_dir: str = "../results/hard_samples"): 
 
-    Re-training the out-of-fold models does not give bit-identical hard sets, so every experiment
+    """Re-training the out-of-fold models does not give bit-identical hard sets, so every experiment
     loads the saved ones to work on exactly the same sentences.
     """
     import pandas as pd
 
-    return tuple(np.flatnonzero(pd.read_csv(f"{hard_dir}/exp7_{split}_hard.csv")[f"is_hard_p{percentile}"])
+    return tuple(np.flatnonzero(pd.read_csv(f"{hard_dir}/{split}_hard.csv")[f"is_hard_p{percentile}"])
                  for split in ["train", "val"])
 
 

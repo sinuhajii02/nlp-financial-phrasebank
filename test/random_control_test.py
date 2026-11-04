@@ -60,7 +60,7 @@ def test_score_predictions_hard_nonhard_split():
 def test_score_matches_teammate_baseline():
     """Our scoring must reproduce the numbers the baseline notebook stored in metrics.csv."""
     val = pd.read_csv(ROOT / "data" / "val.csv")
-    probs_df = pd.read_csv(ROOT / "results" / "probs" / "baseline_logreg_val.csv")
+    probs_df = pd.read_csv(ROOT / "results" / "predictions" / "baseline_logreg.csv")
     assert (val["sentence"].values == probs_df["sentence"].values).all()  # same row order
 
     y = val["label"].map(LABEL_TO_ID).to_numpy()
@@ -114,7 +114,7 @@ def test_update_metrics_csv_keeps_other_rows_and_is_idempotent(tmp_path):
 
 
 # ---------- shared hard sets ----------
-def test_load_hard_selection_matches_saved_exp7_sets():
+def test_load_hard_selection_matches_saved_sets():
     from utils.finbert_cnn import load_hard_selection
 
     train_idx, val_idx = load_hard_selection(20, hard_dir=ROOT / "results" / "hard_samples")
