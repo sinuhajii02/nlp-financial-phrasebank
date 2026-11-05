@@ -78,12 +78,13 @@ class MacroF1Callback(keras.callbacks.Callback):
         print(f" - val_macro_f1: {logs['val_macro_f1']:.4f}")
 
 
-def train_baseline(embedding_matrix, X_train, y_train, X_val, y_val, trainable: bool = False, verbose="auto"):
+def train_baseline(embedding_matrix, X_train, y_train, X_val, y_val, trainable: bool = False, verbose="auto",
+                   epochs: int = 20):
     model = build_cnn(embedding_matrix, trainable)
     model.fit(
         X_train, keras.utils.to_categorical(y_train, len(LABELS)),
         validation_data=(X_val, keras.utils.to_categorical(y_val, len(LABELS))),
-        epochs=20, batch_size=32, verbose=verbose,
+        epochs=epochs, batch_size=32, verbose=verbose,
         callbacks=[MacroF1Callback(X_val, y_val), keras.callbacks.EarlyStopping(
             monitor="val_macro_f1", mode="max", patience=3, restore_best_weights=True
         )],
