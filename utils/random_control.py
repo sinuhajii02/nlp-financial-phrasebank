@@ -27,7 +27,7 @@ ARCHITECTURE = "cnn_64_finbert"  # Conv1D(64, 3) on FinBERT word pieces, as in e
 CONDITION = "random_control"
 HARD_PERCENTILE = 20  # percentile of experiment 7 used for the team metrics row
 
-# Exactly the columns of results/metrics.csv, in the team's order.
+#  columns of results/metrics.csv, in the team's order.
 TEAM_COLUMNS = [
     "condition", "embedding_config", "architecture",
     "accuracy_overall", "f1_overall",
@@ -136,9 +136,6 @@ def run_weighted_finetune(baseline_model, data: dict, trainable: bool, seed: int
     }
 
 
-# ---------------------------------------------------------------------------------------------
-# Bookkeeping
-# ---------------------------------------------------------------------------------------------
 def summarize_seeds(seed_df: pd.DataFrame):
     """Mean and standard deviation over seeds, per embedding configuration."""
     grouped = seed_df.groupby("embedding_config")[METRIC_COLUMNS]
@@ -153,7 +150,6 @@ def to_metrics_rows(mean_df: pd.DataFrame, condition: str = CONDITION) -> pd.Dat
 
 
 def update_metrics_csv(path: str, new_rows: pd.DataFrame) -> pd.DataFrame:
-    """Add/replace rows in results/metrics.csv without touching the other teammates' rows."""
     key = ["condition", "embedding_config", "architecture"]
     path = Path(path)
     existing = pd.read_csv(path) if path.exists() else pd.DataFrame(columns=TEAM_COLUMNS)
