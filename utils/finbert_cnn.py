@@ -32,7 +32,6 @@ DEFAULT_WEIGHT = 1.5
 
 
 def load_finbert_inputs(*dfs, model_name: str = FINBERT_NAME):
-    """FinBERT word-piece ids for every dataframe, plus FinBERT's word-piece embedding matrix."""
     from transformers import BertModel, BertTokenizerFast
 
     tokenizer = BertTokenizerFast.from_pretrained(model_name)
@@ -65,7 +64,7 @@ def build_cnn(embedding_matrix: np.ndarray, trainable: bool = False):
     outputs = layers.Dense(len(LABELS), activation="softmax")(x)
     model = keras.Model(inputs, outputs)
     embedding.set_weights([embedding_matrix])
-    model.compile(optimizer=keras.optimizers.Adam(1e-3), loss="categorical_crossentropy", metrics=["accuracy"])
+    model.compile(optimizer=keras.optimizers.Adam(5e-5), loss="categorical_crossentropy", metrics=["accuracy"])
     return model
 
 
@@ -148,12 +147,11 @@ def fine_tune(baseline_model, X_train, y_train, X_val, y_val, weighted_indices, 
     return model
 
 
-def random_indices(n_train: int, n: int, seed: int) -> np.ndarray:
-    """Random-control subset: `n` distinct training indices, reproducible per seed."""
+def random_indices(n_train: int, n: int, seed: int):
     return np.random.default_rng(seed).choice(n_train, size=n, replace=False)
 
 
-def score_model(model, X, y, hard_indices) -> dict:
+def score_model(model, X, y, hard_indices):
     probabilities = model.predict(X, batch_size=32, verbose=0)
     predictions = probabilities.argmax(axis=1)
     return {
