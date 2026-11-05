@@ -23,7 +23,7 @@ from sklearn.metrics import accuracy_score, f1_score
 # ---------------------------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------------------------
-ARCHITECTURE = "cnn_64_finbert"  # Conv1D(64, 3) on FinBERT word pieces, as in experiment 7
+ARCHITECTURE = "cnn_64"  # Conv1D(64, 3) on FinBERT word pieces; embedding_config says finbert or random
 CONDITION = "random_control"
 HARD_PERCENTILE = 20  # percentile of experiment 7 used for the team metrics row
 
