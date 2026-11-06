@@ -77,11 +77,14 @@ class MacroF1Callback(keras.callbacks.Callback):
 
 
 def train_baseline(embedding_matrix, X_train, y_train, X_val, y_val, trainable=False, verbose="auto",
-                   epochs=20, sample_weight=None):
+                   epochs=20, sample_weight=None, train_targets=None):
+    # train_targets: optional soft labels (one row of 3 probabilities per sentence) instead of one-hot
     model = build_cnn(embedding_matrix, trainable)
+    if train_targets is None:
+        train_targets = keras.utils.to_categorical(y_train, len(LABELS))
     early_stop = keras.callbacks.EarlyStopping(monitor="val_macro_f1", mode="max", patience=5,
                                                restore_best_weights=True)
-    model.fit(X_train, keras.utils.to_categorical(y_train, len(LABELS)), sample_weight=sample_weight,
+    model.fit(X_train, train_targets, sample_weight=sample_weight,
               validation_data=(X_val, keras.utils.to_categorical(y_val, len(LABELS))),
               epochs=epochs, batch_size=32, verbose=verbose,
               callbacks=[MacroF1Callback(X_val, y_val), early_stop])
