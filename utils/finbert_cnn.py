@@ -64,7 +64,7 @@ def build_cnn(embedding_matrix: np.ndarray, trainable: bool = False):
     outputs = layers.Dense(len(LABELS), activation="softmax")(x)
     model = keras.Model(inputs, outputs)
     embedding.set_weights([embedding_matrix])
-    model.compile(optimizer=keras.optimizers.Adam(5e-5), loss="categorical_crossentropy", metrics=["accuracy"])
+    model.compile(optimizer=keras.optimizers.Adam(1e-3), loss="categorical_crossentropy", metrics=["accuracy"])
     return model
 
 
@@ -79,14 +79,14 @@ class MacroF1Callback(keras.callbacks.Callback):
 
 
 def train_baseline(embedding_matrix, X_train, y_train, X_val, y_val, trainable: bool = False, verbose="auto",
-                   epochs: int = 20):
+                   epochs: int = 20, sample_weight=None):
     model = build_cnn(embedding_matrix, trainable)
     model.fit(
-        X_train, keras.utils.to_categorical(y_train, len(LABELS)),
+        X_train, keras.utils.to_categorical(y_train, len(LABELS)), sample_weight=sample_weight,
         validation_data=(X_val, keras.utils.to_categorical(y_val, len(LABELS))),
         epochs=epochs, batch_size=32, verbose=verbose,
         callbacks=[MacroF1Callback(X_val, y_val), keras.callbacks.EarlyStopping(
-            monitor="val_macro_f1", mode="max", patience=3, restore_best_weights=True
+            monitor="val_macro_f1", mode="max", patience=5, restore_best_weights=True
         )],
     )
     return model

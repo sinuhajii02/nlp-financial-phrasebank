@@ -1,71 +1,71 @@
-train_idx,sentence,label,cnn_pred,lr_pred,shared,numeric_comparison,implicit_sentiment,object_polarity,contrast_negation,forward_looking,mixed_sentiment,business_event,ambiguous_label,other,notes
-1538,"After the transaction , Alma Media raised its stake in Talentum to 30.65 % of the shares and some 31.12 % of voting rights .",positive,neutral,neutral,False,,,,,,,,,,
-968,26 January 2011 - Finnish software solutions provider Basware ( HEL : BAS1V ) said yesterday it adjusted its strategy and goals for the next four years with focus on international growth mainly via acquisitions .,neutral,positive,positive,False,,,,,,,,,,
-376,"`` Lidskoe Pivo 's investment program foresees the integrated modernization of production , updating transport and logistics infrastructure and developing new marketing instruments , '' Mikshis said .",positive,neutral,neutral,False,,,,,,,,,,
-844,"`` The number of collection errors fell considerably , and operations speeded up .",positive,negative,negative,False,,,,,,,,,,
-1123,"Benefon , a wireless and GPS technology company , will supply Karputer with its TWIG navigation platform , a GPS satellite navigation and voice guidance service .",positive,neutral,neutral,False,,,,,,,,,,
-1139,Incap Furniture is presently negotiating staff cuts .,negative,neutral,neutral,False,,,,,,,,,,
-1100,`` The combined activities will create value for shareholders and be good for our employees and customers .,positive,neutral,neutral,True,,,,,,,,,,
-357,"Neste Oil said it will build a biodiesel production facility in Rotterdam , the Netherlands , at an estimated cost of 670 million euros , naming France-based Technip as the project 's main contractor .",neutral,positive,positive,False,,,,,,,,,,
-1813,"One of the installed elevators will be a double-deck elevator , which enables more efficient use of the building 's core space .",positive,neutral,neutral,False,,,,,,,,,,
-1764,"The fair value change of investment properties was EUR 15.8 mn , compared to EUR 22.9 mn in the third quarter of 2009 .",negative,positive,positive,False,,,,,,,,,,
-2725,The prices of stainless steel also rose in Europe .,neutral,positive,positive,False,,,,,,,,,,
-1366,Commencing the construction works of Pearl Plaza is a significant step in our Russian projects .,positive,neutral,neutral,False,,,,,,,,,,
-524,"The iTunes-based material will be accessible on Windows-based or Macintosh computers and transferable to portable devices , including Apple 's iPods .",positive,neutral,neutral,False,,,,,,,,,,
-2363,"TietoEnator itself uses Nokia 's Intellisync Mobile Suite 's wireless email , calendar , and device management capabilities , and the company will now extend these services to its customers .",positive,neutral,neutral,False,,,,,,,,,,
-2369,"Finnish IT consultancy Satama Interactive Oyj said on November 13 , 2006 that Jarmo Lonnfors took up the position of CEO .",neutral,positive,positive,False,,,,,,,,,,
-920,The price of GMO soy is 5 % -7 % lower than that of non-GMO .,neutral,negative,negative,False,,,,,,,,,,
-1819,"At a press conference , Lattelecom board chairman Nils Melngailis explained that Blackstone had been chosen for its experience in the IT sector as well as its financial strength .",positive,neutral,neutral,False,,,,,,,,,,
-2355,"The antibody , administered at repeated doses of up to 8 mg-kg , was generally well tolerated , and the pharmacokinetic characteristics of BTT-1023 in psoriasis patients were consistent with those observed in a previously completed study in rheumatoid arthritis RA patients .",neutral,positive,positive,False,,,,,,,,,,
-2072,The company plans to increase the unit 's specialist staff to several dozen -- depending on the market situation during 2010 .,neutral,positive,positive,False,,,,,,,,,,
-2265,16 February 2011 - Finnish industrial machinery company Metso Oyj ( HEL : MEO1V ) said today it will deliver minerals processing equipment and basic engineering to Canadian miner Northland Resources ( OSL : NAUR ) ( TSE : NAU ) .,positive,neutral,neutral,True,,,,,,,,,,
-124,Precedex is approved for IV sedation of initially intubated and mechanically ventilated patients in intensive care .,positive,neutral,neutral,False,,,,,,,,,,
-1642,"Deliveries are to start later in 2010 , and the volume will increase in the years 2011-2012 .",neutral,positive,positive,False,,,,,,,,,,
-693,"Thanks to his wide contact network and good knowledge of market and business environment , he will give a great contribution to the further development of our Indian operations '' , tells Incap 's President & CEO Juhani Hanninen .",positive,neutral,neutral,True,,,,,,,,,,
-2349,Mobile data transfer is expected to increase explosively in the LTE era .,neutral,positive,positive,False,,,,,,,,,,
-386,"The chain has been trying to cut its own costs , pressuring vendors such as fitness equipment manufacturer Precor to slash prices .",neutral,negative,positive,True,,,,,,,,,,
-335,Sales of security and system packaging increased slightly .,positive,neutral,neutral,True,,,,,,,,,,
-237,"Microsoft also churned up its courtship , agreeing to use the Navteq mapping service , which is offered by a company Nokia bought for $ 8.1 billion a few years ago .",positive,neutral,neutral,False,,,,,,,,,,
-160,The announcement comes two weeks before a key licensing agreement expires between between the two companies which are embroiled in a disagreement over royalty payments for Texas Instrument chips which use Qualcomm-patented technology .,negative,neutral,positive,False,,,,,,,,,,
-874,"( ADPnews ) - Dec 30 , 2009 - Finnish investment group Neomarkka Oyj ( HEL : NEMBV ) said today that it will furlough employee in its unit Reka Cables Ltd for less than 90 days , starting in January 2010 .",neutral,positive,negative,True,,,,,,,,,,
-2324,"Finnish energy company Fortum Oyj said on November 13 , 2007 it was granted an environmental permit to build a biofuel-fired combined heat and power CHP plant in Vartan harbor in eastern Stockholm .",positive,neutral,neutral,False,,,,,,,,,,
-537,CDLI highlights the companies that provided the most comprehensive response to the Carbon Disclosure Project CDP information request .,positive,neutral,neutral,False,,,,,,,,,,
-1679,"`` Thanks to my Nokia and Lulu , I am now proud to be a published His novel can be found here .",neutral,positive,positive,False,,,,,,,,,,
-1225,Cash flow from operating activities is estimated to be positive .,positive,neutral,neutral,False,,,,,,,,,,
-543,"Thanks to the internet , consumers compare products more than previously and Finnish companies are not competitive .",negative,positive,positive,False,,,,,,,,,,
-2862,"ADP News - May 29 , 2009 - Bank of America BofA downgraded today its ratings on Swedish-Finnish paper maker Stora Enso Oyj HEL : STERV and on Finnish sector player UPM-Kymmene Oyj HEL : UPM1V to `` underperf",negative,positive,positive,True,,,,,,,,,,
-1186,"`` This agreement is a direct result of LCC 's strategy and plan that was announced earlier this year , '' said Dean Douglas , LCC 's chief executive officer .",neutral,positive,positive,False,,,,,,,,,,
-1698,The company 's advantage in pricing can be seen in the significantly lower prices offered by the new unmanned stations .,positive,neutral,neutral,True,,,,,,,,,,
-2728,"According to Aktia Asset Management , Finnish analysts ' forecasts for 2009 are still too high .",negative,positive,neutral,False,,,,,,,,,,
-321,"The corresponding increase in the share capital , EUR422 ,754 , has been entered in the Trade Register today .",neutral,positive,positive,False,,,,,,,,,,
-2185,"However , the suspect stole his burgundy Nissan Altima .",negative,neutral,neutral,False,,,,,,,,,,
-1267,"The combination of all services enabling us to offer a complex and strengthened service chain not only limited to the Baltic port connections but also for getting access to the world wide Grimaldi Network into the Mediterranean , Africa and North America `` says Uwe Bakosch .",positive,neutral,neutral,True,,,,,,,,,,
-187,"According to ACNielsen 's ScanTrack study for the period week 10 of 2005 to week 9 of 2006 , Coca-Cola is the market leader in soft drinks in Finland .",positive,neutral,neutral,True,,,,,,,,,,
-2601,The energy-efficient data center will be built by combining an effective energy solution with state-of-the-art technology .,positive,neutral,neutral,True,,,,,,,,,,
-2311,"The OMX Nordic 40 ( OMXN40 ) index , comprising the 40 most traded Nordic stocks on the Nasdaq OMX exchange , closed up 1.29 % at 1,084.47 points on Friday .",positive,neutral,negative,True,,,,,,,,,,
-2121,The aim is to convert the plants into flexible manufacturers of new and technologically demanding products .,positive,neutral,neutral,True,,,,,,,,,,
-1315,"The planned facility , estimated to cost around $ 814 million , would be the largest biodiesel plant in the world , and use palm oil certified by the Roundtable on Sustainable Palm Oil ( RSPO ) .",positive,neutral,neutral,False,,,,,,,,,,
-2830,"In complying with the European Water Framework Directive requirements , the pre-treatment unit will be fully renovated , including hydraulics of waste water inception , degridding , sand and grease removal and treatment and deodorization of the unit .",positive,neutral,neutral,False,,,,,,,,,,
-1284,- Net sales for the period are expected to fall well below that of last year and the result after non-recurring items is expected to be in the red .,negative,neutral,positive,True,,,,,,,,,,
-1696,"Beef imports fell slightly from 2006 , to 14mn kilos .",neutral,negative,negative,True,,,,,,,,,,
-712,"Fiskars has a strong portfolio of international brands , which include Fiskars , Iittala , Gerber , Silva and Buster .",positive,neutral,neutral,False,,,,,,,,,,
-2852,Self-service and automation are in a bigger role now and Fujitsu 's global resources will be exploited effectively .,positive,neutral,neutral,False,,,,,,,,,,
-1243,The effect of the savings will be noticeable as of the beginning of 2010 .,positive,neutral,neutral,True,,,,,,,,,,
-216,The group will expand the chain to include 45 stores .,positive,neutral,neutral,False,,,,,,,,,,
-1328,A new Kveyt light variety of Suomalainen Pekoni marketed under the Atria brand name is now available to consumers in Finland .,positive,neutral,neutral,False,,,,,,,,,,
-2197,"Founded in 1994 , the company uses a six-step , time-focused , collaborative project approach to improve financial institutions ' revenue streams .",neutral,positive,positive,False,,,,,,,,,,
-2562,"`` The implementation of these programs has had , and will have , negative impacts on 2006 and 2007 earnings , '' Mr Meiklejohn said .",negative,neutral,positive,False,,,,,,,,,,
-1546,"Our strong company brands - ESL Shipping , Leipurin , Telko and Kaukomarkkinat - aim to be the market leaders in their sectors .",positive,neutral,neutral,False,,,,,,,,,,
-215,"UPM-Kymmene Corp. , the world 's largest maker of magazine paper , on Tuesday reported a 19-percent profit drop as lower paper prices , higher costs and a strong euro hurt revenue .",negative,positive,positive,True,,,,,,,,,,
-2493,"Vaisala also said it expects net sales of EUR 253.2 million for 2010 , compared with EUR 252.2 million recorded in 2009 .",positive,neutral,neutral,False,,,,,,,,,,
-1527,"Raisio 's bid to buy Glisten is a `` win-win '' deal for both companies , the chairman of the UK snacks firm told just-food today 10 February .",positive,neutral,neutral,True,,,,,,,,,,
-1498,The sale of the Healthcare Trade business supports Oriola-KD 's strategy to focus on Pharmaceutical Wholesale and Retail businesses .,positive,neutral,neutral,False,,,,,,,,,,
-2261,"A purchase agreement for 7,200 tons of gasoline with delivery at the Hamina terminal , Finland , was signed with Neste Oil OYj at the average Platts index for this September plus eight US dollars per month .",positive,neutral,neutral,False,,,,,,,,,,
-13,Korhonen was dismissed from her post of editor in chief of the group 's newspaper Lapin Kansa in December 2008 .,negative,neutral,neutral,True,,,,,,,,,,
-1909,"We went to the market with yield guidance of the 7.25 % area , which gave us the flexibility to go up or down by 1-8th .",neutral,negative,positive,False,,,,,,,,,,
-120,SRV lowered its net sales estimate for the whole of 2008 due to uncertainties in housing sales .,negative,positive,positive,False,,,,,,,,,,
-1426,Operating loss increased to EUR 17mn from a loss of EUR 10.8 mn in 2005 .,negative,positive,positive,False,,,,,,,,,,
-257,It is also 7.7 pct above the 12-month volume weighted average price of the stock .,positive,neutral,neutral,True,,,,,,,,,,
-1054,"Amer , which bought Salomon from adidas in October , said the job cuts are aimed at boosting competitiveness .",neutral,negative,negative,False,,,,,,,,,,
-121,Return on equity stood at 18.3 % compared to 15.4 % in the third quarter of 2005 .,positive,negative,negative,False,,,,,,,,,,
-667,The personnel reductions will primarily affect those working for the parent company in the diagnostics business or in production and logistics in the liquid handling business .,negative,neutral,neutral,False,,,,,,,,,,
+train_idx,sentence,label,cnn_pred,shared,ambiguous_label,domain_required,mixed_sentiment,corporate_action,numerical_comparison,other,notes
+2565,These companies will be able to keep their market positions .,positive,neutral,False,,1,,,,,keeping market position = implicitly positive
+1013,Last year 's third quarter result had been burdened by costs stemming from restructuring in the US .,negative,positive,False,,,,1,,,restructuring costs; model likely keyed on 'result'
+1020,Yakima created the position for him after emerging from economic downturns of its own .,neutral,negative,False,,,1,,,,'downturns' vs 'emerging'; event itself neutral
+381,Viking Line manages well with its current ferries .,positive,neutral,False,,,,,,1,explicit positive phrase ('manages well') missed
+1179,NASDAQ-listed Yahoo Inc has introduced a new service that enables Malaysians to take their favorite Internet content and services with them on their mobile phones .,positive,neutral,False,,1,,1,,,new service launch; positivity implied
+2341,Sponda will record a profit from the sale of 8.5 mln euro ($ 12.4 mln).,positive,neutral,False,,,,1,,,divestment yielding profit
+2820,"On the other hand , Montevideo said that having the two mills working in the area will generate jobs .",positive,neutral,True,,1,,,,,job creation = positive economic effect
+2611,"Israeli cable network operator HOT Telecom has chosen Teleste , an international technology group , as its exclusive provider of FTTx equipment in Israel , according to Teleste today .",positive,neutral,False,,1,,1,,,won exclusive supplier contract
+1441,"Wayne Greensmith , Fiskars Brands UK senior brand manager , said : `` We have launched this as we want to give something back to the community .",neutral,positive,False,1,,,,,,"PR quote; 'give back' reads positive, gold neutral"
+2218,"With the extension of the new contract for a further eight engines , the plant will now produce over 100 MW , it said .",positive,neutral,False,,1,,1,,,contract extension -> more output
+2446,"The decision means temporary lay-offs of fixed duration at the company 's Nastola and Jyvaskyla units , in southern and central Finland , respectively .",negative,neutral,False,,,,1,,,temporary lay-offs
+165,"The steelmaker said that the drop in profit was explained by the continuing economic uncertainty , mixed with the current drought in bank lending , resulting in a decline in demand for its products as customers find it increasingly difficult to fund operations .",negative,positive,False,,,,,,1,clear negative cues; model likely keyed on 'profit'
+2032,The Elcoteq group recently announced that the last three months of the previous year brought to it a major loss of more than half a billion kroons ( EUR 32 mln ) for the fifth quarter running .,negative,positive,False,,,,,,1,explicit 'major loss' missed
+2104,A survey conducted by Taloustutkimus for Sampo Life shows that companies are badly prepared to losing key staff members .,negative,neutral,False,,,,,,1,explicit negative ('badly prepared') missed
+2641,"After the takeover , Cramo will become the second largest rental services provider in the Latvian market .",positive,neutral,False,,1,,1,,,takeover -> market position gain
+1945,"Finnish real estate investor Sponda Plc said on Wednesday 12 March that it has signed agreements with Danske Bank A-S , Helsinki Branch for a 7-year EUR150m credit facility and with Ilmarinen Mutual Pension Insurance Company for a 7-year EUR50m credit facility .",neutral,positive,False,1,,,1,,,"credit facility; could be read positive, gold neutral"
+2425,"The workforce will be reduced also in the Amsterdam office , in the Netherlands .",negative,neutral,False,,,,1,,,workforce reduction
+100,"When this information was released on 5 September 2008 , Nokia 's American Depositary shares fell by 8 % .",negative,neutral,False,,,,,1,,share price fell 8%
+1576,"Employing 112 in Finland and 280 abroad , the unit recorded first-quarter 2007 sales of 8.6 mln eur , with an operating loss of 1.6 mln eur .",negative,neutral,False,,1,,,,,needs to read 'operating loss' as negative
+1940,`` Leipurin is a growing and rapidly internationalizing Group .,positive,neutral,True,,,,,,1,explicit positive ('growing') missed
+1928,Sales were down 14 per cent in Finland and up 27 per cent abroad where sales were lifted by the strong growth in sales in Russia and Lithuania .,neutral,negative,False,1,,1,,1,,"down in Finland, up abroad"
+657,"The EU Commission said earlier it had fined ThyssenKrupp , United Technologies Corp 's Otis , Schindler AG and Kone Oyj a total of 992.3 mln eur for alleged cartel activity in the lift market going back twelve years .",negative,neutral,False,,1,,,,,regulatory fine; no sentiment words
+2626,"In the Homeware area , Fiskars provides leading branded products for home , kitchen , and interior design .",positive,neutral,True,1,,,,,,promotional description; similar to 779
+687,The total number of filling stations has been on the decrease recently .,negative,neutral,False,1,1,,,,,decline in stations: negative only by inference
+448,All of Raisio 's divisions recorded an operating profit .,positive,neutral,True,,1,,,,,operating profit across divisions = positive
+808,"However , he expects banks to provide alternative financing .",positive,neutral,True,1,1,,,,,"expected financing; mild, context-dependent"
+257,It is also 7.7 pct above the 12-month volume weighted average price of the stock .,positive,neutral,False,,1,,,1,,price premium vs VWAP
+2860,The company will also be compensated for acting as a reserve batch plant .,positive,neutral,False,,1,,,,,compensation = revenue
+2266,CEO Erkki J+Ærvinen is happy with the company 's performance in 2010 .,positive,neutral,True,,,,,,1,explicit positive ('happy') missed
+2267,"The upgrade is intended to raise the network capacity from 450 MHz to 630 MHz in several cities , enabling bi-directional services for digital television as well as broadband data .",positive,neutral,False,,1,,,1,,capacity 450->630 MHz
+1803,Nokia and Elisa will work together to bring a superior mobile gaming experience for Elisa customers .,positive,neutral,False,,,,1,,,partnership; 'superior'
+221,"Overall , 50 percent of respondents were confident about their security when banking online .",positive,neutral,False,1,,,,1,,50% confident is arguably neutral
+1865,The bank 's leasing arm Nordea Liising ended the year with a profit of 4.4 million euros .,neutral,positive,False,1,,,,,,profit reported but gold neutral
+2804,Deliveries have started and the network will be ready for a launch soon .,positive,neutral,False,,1,,,,,deliveries/launch progress
+2515,services supplier Efore Plc to streamline operations in Finland and the US Finnish electronic systems and services supplier Efore Plc ( OMX Helsinki : EFO1V ) said on Tuesday ( 3 February ) that it has initiated statutory negotiations regarding a streamlining of its operations in Finland .,positive,neutral,True,1,1,,1,,,'streamlining' = layoff euphemism; positive gold questionable
+1167,"In Q1 of 2009 , the company 's result before taxes from continuing operations , excluding non-recurring items , totalled EUR -0.4 mn , compared to EUR -0.1 mn in the corresponding period in 2008 .",negative,positive,False,,1,,,1,,-0.4 vs -0.1: loss widened
+2014,"The most popular paper by far was Kesko 's loyal customer magazine Pirkka with 2,462,000 readers .",neutral,positive,True,1,,,,,,'most popular' but gold neutral
+1717,"Mobile phone sales rose 25 % to 5.87 billion euros , while enterprise solution sales dropped 39 % to 186 million euros .",positive,negative,False,,,1,,1,,"one segment up 25%, other down 39%"
+477,Airbus will attempt to evacuate up to 873 people within 90 seconds .,neutral,positive,False,,,,,,1,safety test with numbers; no sentiment
+2367,"Okmetic closed its plant in Espoo in early 2004 , and all production lines from the site were moved to Okmetic 's plants in Vantaa , Finland and Texas , USA .",neutral,positive,False,1,,,1,,,plant closure + relocation; gold neutral
+2472,"Sampo Group that has become a major shareholder in Nordea owns TrygVesta 's main competitor , If P & C Insurance .",neutral,positive,True,,1,,,,,ownership/competitor relation; neutral fact
+2505,Calls to the switchboard and directory services have decreased significantly since our employees now have up-to-date contact information from all their colleagues and customers on their phone and can place the call directly .,neutral,negative,True,1,1,1,,,,'decreased' is good here (efficiency)
+1668,`` It wo n't happen overnight .,neutral,positive,True,1,,,,,,no context to judge
+1487,Aldata to Share Space Optimization Vision at Apollo User Group and 2009 Category Management Association Conferences ; Company Will Unveil New Solution that Combines Business Intelligence with Space Planning Data at Conferences,neutral,positive,True,1,,,1,,,product unveiling; gold neutral
+779,Ramirent is a leading company in machinery and equipment rentals for construction and industry .,positive,neutral,True,1,,,,,,'leading company' labeled positive; 2626 similar
+345,"That 's what I go to bed worrying about every night , ' he said .",negative,neutral,False,,,,,,1,explicit worry/negative emotion missed
+2264,"The refining margin for the year was $ 13.39 - bbl , compared to $ 10.46 - bbl in the prior year .",positive,negative,False,,1,,,1,,margin 13.39 vs 10.46 = improvement
+1217,"The company plans to close two of the three lines at the plant , where some 450 jobs are under threat .",negative,neutral,True,,,,1,,,"line closures, jobs at risk"
+1499,"According to Heikkil+Æ , more than just `` refreshment and energy '' will soon be found in soft drinks also in Finland .",neutral,positive,True,,,,,,1,quoted 'refreshment and energy' misleads model
+2197,"Founded in 1994 , the company uses a six-step , time-focused , collaborative project approach to improve financial institutions ' revenue streams .",neutral,positive,False,,,,,,1,company boilerplate; 'improve' misleads model
+1066,"The mill 's raw material need will increase by 100,000 m3 of wood .",neutral,positive,False,1,1,,,,,higher raw material need: direction unclear
+2185,"However , the suspect stole his burgundy Nissan Altima .",negative,neutral,True,,,,,,1,non-financial crime sentence
+1663,"The ten year rent contract with the right of prolongation on the existing terms , was signed between Stockmann and the owner of the shopping center in 1998 .",neutral,positive,False,,,,1,,,historical rent contract; neutral
+1823,Business boomed after Ostrom helped plant a small story about Rapala lures in a Life magazine issue that featured Marilyn Monroe on the cover .,positive,neutral,False,,,,,,1,idiomatic positive ('boomed') missed
+632,"It currently employs about 750 people and expects headcount to reach 1,000 by end of 2007 .",positive,neutral,False,,1,,,1,,"headcount 750 -> 1,000"
+1095,Nordea Pankki Suomi Oyj 's ownership in Stonesoft Corporation has decreased below 1-20 .,neutral,negative,False,,1,,1,,,stake reduction; neutral disclosure
+785,in Finland Finnish pharmaceutical company Orion Corporation OMX Helsinki : ORNAV said on Wednesday 7 January that it has concluded its personnel negotiations in Finland and will reduce the number of personnel by 205 .,negative,neutral,False,,,,1,,,personnel reduction of 205
+912,Danish company FLSmidth has acknowledged that it has violated a patent held by Finnish Metso .,negative,neutral,True,,1,,,,,patent violation = legal liability
+1196,They are also upset that some of the machinery and work is taken over to Poland .,negative,neutral,False,,,,1,,,work moved to Poland; 'upset'
+1397,"According to a report by Neomarkka , Kuitu Finland 's customers are interested in buying the company 's products when it restarts production .",positive,neutral,True,,1,,,,,customer interest on restart
+130,Earnings per share EPS in 2005 amounted to a loss of EUR1 .26 .,neutral,negative,False,1,1,,,,,EPS loss but gold neutral
+2728,"According to Aktia Asset Management , Finnish analysts ' forecasts for 2009 are still too high .",negative,neutral,False,,1,,,,,forecasts 'too high' = expected downside
+233,"Biohit , Inc. , has expanded its mLINE Family of Pipettors with the addition of the NEW 1-10 ml volume range .",neutral,positive,True,1,,,1,,,product line expansion; gold neutral
+299,"The pulp production in Finnish Kemij+Ærvi will also be liquidated and about 1,100 employees loose their jobs .",negative,neutral,False,,,,1,,,"liquidation, job losses"
+2355,"The antibody , administered at repeated doses of up to 8 mg-kg , was generally well tolerated , and the pharmacokinetic characteristics of BTT-1023 in psoriasis patients were consistent with those observed in a previously completed study in rheumatoid arthritis RA patients .",neutral,positive,False,1,1,,,,,clinical result 'well tolerated'; gold neutral
+1778,Finnish Bore that is owned by the Rettig family has grown recently through the acquisition of smaller shipping companies .,positive,neutral,False,,,,1,,,growth via acquisitions
+2131,The move was triggered by weak demand for forestry equipment and the uncertain market situation .,negative,neutral,True,,,,,,1,negative causes of an unspecified 'move'
+768,"Stockmann and Swedish sector company AB Lindex entered into an agreement on September 30 , 2007 , whereby Stockmann , or a wholly-owned subsidiary of it , will make a public tender offer for all of Lindex 's issued shares .",positive,neutral,False,,1,,1,,,public tender offer
+2507,"`` The acquisition of Sampo Bank makes strategic sense for DB , '' says Lindsey Liddell , director of Fitch Ratings 's Financial Institutions Group .",positive,neutral,False,,,,1,,,acquisition 'makes strategic sense'
+1642,"Deliveries are to start later in 2010 , and the volume will increase in the years 2011-2012 .",neutral,positive,False,1,,,,,,volume increase but gold neutral
