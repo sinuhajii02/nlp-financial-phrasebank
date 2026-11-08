@@ -1,6 +1,3 @@
-# Taxonomy tags for the taxonomy-guided training.
-# numerical and mixed get simple rules (so they also exist on val), the other categories come from the coding sheets.
-# Run "python -m utils.taxonomy" from the repo root to print the counts.
 import re
 from pathlib import Path
 
@@ -18,7 +15,7 @@ RULE_CATEGORIES = ["numerical", "mixed"]
 SHEET_COLUMNS = {"ambiguous_label": "ambiguous", "domain_required": "domain", "mixed_sentiment": "mixed",
                  "corporate_action": "company_event", "numerical_comparison": "numerical"}
 
-# numerical: a number that is not a year, and words that compare it with another number or period
+
 YEAR = re.compile(r"^(19|20)\d\d$")
 NUMBER = re.compile(r"\d+(?:[.,]\d+)?")
 COMPARISON_WORDS = re.compile(
@@ -30,7 +27,6 @@ COMPARISON_WORDS = re.compile(
     re.IGNORECASE)
 
 # mixed: a positive and a negative word in the same sentence.
-# "loss" and "profit" are left out: "loss increased" is one negative thing, not a mix
 POSITIVE_WORDS = re.compile(
     r"\b(?:increas(?:e|ed|es|ing)|ris(?:e|es|ing|en)|rose|gr[eo]w(?:s|n|th|ing)?|improv(?:e|ed|es|ing|ement)"
     r"|higher|gain(?:s|ed)?|strong(?:er|est)?|boost(?:s|ed|ing)?|record|surg(?:e|ed)|jump(?:s|ed)?"
@@ -47,7 +43,6 @@ def has_figure(sentence):
 
 
 def has_from_figure(sentence):
-    # "from EUR9 .6 m", "from 310 crowns": a non-year figure within 3 tokens after "from"
     tokens = sentence.split()
     for i, tok in enumerate(tokens):
         if tok.lower() == "from":
@@ -77,7 +72,6 @@ def add_rule_tags(df):
 
 def load_manual_tags(tag_paths=DEFAULT_TAG_PATHS):
     # one row per coded train sentence, 0/1 per category.
-    # a sentence on two sheets gets a category if one of them ticked it
     if isinstance(tag_paths, (str, Path)):
         tag_paths = [tag_paths]
     sheets = []
@@ -94,8 +88,6 @@ def load_manual_tags(tag_paths=DEFAULT_TAG_PATHS):
 
 
 def load_tagged_splits(tag_paths=DEFAULT_TAG_PATHS, data_dir=DATA_DIR):
-    # train and val with the rule tags (rule_*) and the hand-coded tags (manual_*, empty if not coded).
-    # the coding sheets only have train sentences, so coded is False for all of val
     train = pd.read_csv(Path(data_dir) / "train.csv")
     val = pd.read_csv(Path(data_dir) / "val.csv")
     manual = load_manual_tags(tag_paths)
@@ -119,7 +111,7 @@ DEFAULT_CAT_WEIGHTS = {"ambiguous": 0.5, "numerical": 2.0, "mixed": 2.0, "compan
 
 
 def category_matrix(df):
-    # True/False per category: the hand-coded tag if the sentence was coded, otherwise the rule tag
+    # True/False per category
     out = pd.DataFrame(False, index=df.index, columns=CATEGORIES)
     coded = df["coded"].to_numpy(bool) if "coded" in df else np.zeros(len(df), bool)
     for cat in CATEGORIES:
@@ -133,7 +125,6 @@ def category_matrix(df):
 
 def make_weights(df, cat_weight=DEFAULT_CAT_WEIGHTS):
     # one weight per sentence. No category = 1.0.
-    # with several categories we take the smallest weight if one is below 1 (so ambiguous stays low), else the largest
     unknown = set(cat_weight) - set(CATEGORIES)
     if unknown:
         raise ValueError(f"unknown categories {sorted(unknown)}, expected some of {CATEGORIES}")

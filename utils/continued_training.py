@@ -1,4 +1,3 @@
-# Continued training from one saved baseline (taxonomy weights vs the same weights on random sentences).
 from pathlib import Path
 
 import numpy as np
@@ -9,7 +8,7 @@ from utils.preprocessing import LABELS
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CHECKPOINT = ROOT / "models/finbert_cnn_frozen_baseline.keras"
-STOP_MODES = {"val_loss": "min", "val_macro_f1": "max"}   # early-stopping metric -> direction
+STOP_MODES = {"val_loss": "min", "val_macro_f1": "max"}
 
 
 def ensure_baseline_checkpoint(path, embedding_matrix, X_train, y_train, X_val, y_val, trainable=False):
@@ -29,8 +28,6 @@ def ensure_baseline_checkpoint(path, embedding_matrix, X_train, y_train, X_val, 
 
 def continue_training(checkpoint_path, X_train, y_train, X_val, y_val, sample_weight=None,
                       learning_rate=1e-5, epochs=20, patience=3, batch_size=32, verbose=0, stop_on="val_loss"):
-    # load the saved baseline and train it further with sample_weight.
-    # early stopping on val_loss or val_macro_f1, the best epoch is kept (always at least one epoch)
     if stop_on not in STOP_MODES:
         raise ValueError(f"stop_on must be one of {list(STOP_MODES)}")
     model = keras.models.load_model(checkpoint_path, compile=False)
@@ -42,7 +39,6 @@ def continue_training(checkpoint_path, X_train, y_train, X_val, y_val, sample_we
             raise ValueError("sample_weight must have one weight per training sample")
     early_stop = keras.callbacks.EarlyStopping(monitor=stop_on, mode=STOP_MODES[stop_on], patience=patience,
                                                restore_best_weights=True)
-    # MacroF1Callback must come before EarlyStopping so val_macro_f1 is in the logs when it is checked
     callbacks = [early_stop] if stop_on == "val_loss" else [MacroF1Callback(X_val, y_val), early_stop]
     history = model.fit(X_train, keras.utils.to_categorical(y_train, len(LABELS)), sample_weight=sample_weight,
                         validation_data=(X_val, keras.utils.to_categorical(y_val, len(LABELS))),
