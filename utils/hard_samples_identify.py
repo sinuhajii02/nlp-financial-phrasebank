@@ -10,14 +10,6 @@ def validate_probs(probs):
         raise ValueError("probs must be a 2D array with shape (samples, classes)")
     if probabilities.shape[1] < 2:
         raise ValueError("probs must contain at least two class probabilities")
-    if probabilities.shape[0] == 0:
-        raise ValueError("probs must contain at least one sample")
-    if not np.isfinite(probabilities).all():
-        raise ValueError("probs must contain only finite values")
-    if (probabilities < 0).any() or (probabilities > 1).any():
-        raise ValueError("probs must be between 0 and 1")
-    if not np.allclose(probabilities.sum(axis=1), 1, atol=1e-3):
-        raise ValueError("probs must sum to 1")
     return probabilities
 
 

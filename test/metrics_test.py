@@ -5,7 +5,7 @@ import pandas as pd
 import pytest
 
 from utils.hard_samples_identify import get_hard_sample_indices
-from utils.metrics import ARCHITECTURE, METRIC_COLUMNS, TEAM_COLUMNS, score_predictions, to_metrics_rows, update_metrics_csv
+from utils.metrics import ARCHITECTURE, METRIC_COLUMNS, COLS, score_predictions, to_metrics_rows, update_metrics_csv
 
 ROOT = Path(__file__).resolve().parents[1]
 LABEL_TO_ID = {"negative": 0, "neutral": 1, "positive": 2}
@@ -52,7 +52,7 @@ def mean_rows():
 
 def test_to_metrics_rows():
     rows = to_metrics_rows(mean_rows(), "targeted")
-    assert list(rows.columns) == TEAM_COLUMNS
+    assert list(rows.columns) == COLS
     assert set(rows["condition"]) == {"targeted"}
     assert set(rows["architecture"]) == {ARCHITECTURE}
 
@@ -61,14 +61,14 @@ def test_update_metrics_csv_keeps_other_rows_and_does_not_duplicate(tmp_path):
     path = tmp_path / "metrics.csv"
     other = {c: 0.5 for c in METRIC_COLUMNS}
     pd.DataFrame([{"condition": "baseline", "embedding_config": "tfidf_1-2gram",
-                   "architecture": "logreg", **other}])[TEAM_COLUMNS].to_csv(path, index=False)
+                   "architecture": "logreg", **other}])[COLS].to_csv(path, index=False)
 
     new_rows = to_metrics_rows(mean_rows(), "targeted")
     update_metrics_csv(path, new_rows)
     out = update_metrics_csv(path, new_rows)  # second call must not add the rows again
 
     assert len(out) == 3
-    assert list(pd.read_csv(path).columns) == TEAM_COLUMNS
+    assert list(pd.read_csv(path).columns) == COLS
     assert (out["condition"] == "baseline").sum() == 1
 
 

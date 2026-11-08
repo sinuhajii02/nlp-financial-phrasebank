@@ -1,21 +1,20 @@
-# scoring and the shared results/metrics.csv
 import os
 
 import numpy as np
 import pandas as pd
 from sklearn.metrics import accuracy_score, f1_score
 
-ARCHITECTURE = "cnn_64"  # Conv1D(64, 3) on FinBERT word pieces; embedding_config says finbert or random
+ARCHITECTURE = "cnn_64"
 
 # columns of results/metrics.csv, in the team's order
-TEAM_COLUMNS = [
+COLS = [
     "condition", "embedding_config", "architecture",
     "accuracy_overall", "f1_overall",
     "accuracy_hard", "f1_hard",
     "accuracy_nonhard", "f1_nonhard",
     "f1_negative", "f1_neutral", "f1_positive",
 ]
-METRIC_COLUMNS = TEAM_COLUMNS[3:]
+METRIC_COLUMNS = COLS[3:]
 
 
 def score_predictions(y_true, probs, val_hard_idx):
@@ -43,7 +42,7 @@ def to_metrics_rows(mean_df, condition):
     rows = mean_df.reset_index()
     rows["condition"] = condition
     rows["architecture"] = ARCHITECTURE
-    return rows[TEAM_COLUMNS]
+    return rows[COLS]
 
 
 def update_metrics_csv(path, new_rows):
@@ -55,6 +54,6 @@ def update_metrics_csv(path, new_rows):
     else:
         out = new_rows.copy()
     out = out.drop_duplicates(subset=key, keep="last").reset_index(drop=True)
-    out = out[TEAM_COLUMNS]
+    out = out[COLS]
     out.to_csv(path, index=False)
     return out
