@@ -6,19 +6,20 @@ from sklearn.metrics import f1_score
 from sklearn.model_selection import StratifiedKFold
 from tensorflow import keras
 from tensorflow.keras import layers
+from transformers import BertModel, BertTokenizerFast
+
 
 from utils.preprocessing import LABELS
 
 FINBERT_NAME = "yiyanghkust/finbert-pretrain"
 MAX_LEN = 64
 BASELINE_SEED = 42
-SEEDS = [42, 43, 44, 45, 46]
+SEEDS = [42, 43, 44]
 
 
 def load_finbert_inputs(*dfs, model_name=FINBERT_NAME):
     # returns the token ids for every dataframe given, and FinBERT's embedding matrix at the end
-    from transformers import BertModel, BertTokenizerFast
-
+    
     tokenizer = BertTokenizerFast.from_pretrained(model_name)
     finbert = BertModel.from_pretrained(model_name)
     embedding_matrix = finbert.embeddings.word_embeddings.weight.detach().cpu().numpy()
@@ -26,8 +27,7 @@ def load_finbert_inputs(*dfs, model_name=FINBERT_NAME):
 
     outputs = []
     for df in dfs:
-        tokens = tokenizer(list(df["sentence"]), padding="max_length", truncation=True,
-                           max_length=MAX_LEN, return_tensors="np")
+        tokens = tokenizer(list(df["sentence"]), padding="max_length", truncation=True, max_length=MAX_LEN, return_tensors="np")
         outputs.append(tokens["input_ids"])
     outputs.append(embedding_matrix)
     return outputs
@@ -37,8 +37,7 @@ def build_cnn(embedding_matrix, trainable=False):
     inputs = keras.Input(shape=(MAX_LEN,), dtype="int32")
     # we start with zeros and copy FinBERT in with set_weights below. Using a Constant initializer
     # instead makes clone_model run out of memory (it saves the whole matrix in the config)
-    embedding = layers.Embedding(embedding_matrix.shape[0], embedding_matrix.shape[1],
-                                 embeddings_initializer="zeros", trainable=trainable, mask_zero=False)
+    embedding = layers.Embedding(embedding_matrix.shape[0], embedding_matrix.shape[1], embeddings_initializer="zeros", trainable=trainable, mask_zero=False)
     x = embedding(inputs)
     x = layers.SpatialDropout1D(0.3)(x)
     x = layers.Conv1D(64, 3, activation="relu")(x)
