@@ -11,8 +11,8 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data"
-DEFAULT_TAG_PATHS = [ROOT / "results/taxonomy/coding_sheet_B_labelled.csv",
-                     ROOT / "results/taxonomy/coding_sheet_D_labelled.csv"]
+DEFAULT_TAG_PATHS = [ROOT / "results/taxonomy/coding_sheet_B.csv",
+                     ROOT / "results/taxonomy/coding_sheet_D.csv"]
 
 CATEGORIES = ["ambiguous", "domain", "mixed", "company_event", "numerical"]
 RULE_CATEGORIES = ["numerical", "mixed"]

@@ -8,7 +8,7 @@ Weights (`weighting=all`): ambiguous 0.5, numerical 2.0, mixed 2.0, company_even
 (500 of 2,901 train sentences reweighted).
 
 Files: `weighted_runs.csv` (one row per run), `weighted_summary.csv` (mean/std per setting, arm and group),
-`coding_sheet_*` / `error_pool.csv` (manual coding, see notebook 08). Per-run probabilities in `probs/` and the
+`coding_sheet_*` / `error_pool.csv` (manual coding, see notebook 07). Per-run probabilities in `probs/` and the
 archived lr 1e-5 ablation in `results/archive/` are not tracked in git.
 
 ## Results (weighting = all)
