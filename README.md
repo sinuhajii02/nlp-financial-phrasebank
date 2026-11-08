@@ -34,7 +34,12 @@ python scripts/taxonomy_training.py --summary-only                     # rebuild
 ```
 ## Use of AI tools
 
-The taxonomy-guided training code was written with an AI coding assistant: `utils/taxonomy.py`, `utils/taxonomy_eval.py`,
-`utils/continued_training.py` and `scripts/taxonomy_training.py`. We reviewed it and ran the experiments ourselves.
+Two parts of the code were written with an AI coding assistant:
+- the taxonomy-guided training: `utils/taxonomy.py`, `utils/taxonomy_eval.py`, `utils/continued_training.py` and
+  `scripts/taxonomy_training.py`
+- the targeted training on the transformer: the "Targeted training" part of `notebook/04_transformer_reference.ipynb`
+  (from "Training with weights" to "Results"; the baseline transformer above it is our own)
+
+We reviewed this code and ran the experiments ourselves.
 For the rest of the project we used AI tools as an assistant (debugging, restructuring code, and checking that the numbers
 in the report match the code). The experiment design, the runs and the analysis are our own.
