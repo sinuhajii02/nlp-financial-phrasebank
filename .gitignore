@@ -6,3 +6,10 @@ models/
 # practical datasets (too big for GitHub, only the notebooks are kept)
 practicals/**/*.csv
 practicals/**/*.txt
+
+# taxonomy-guided training: per-run probabilities, archived runs, logs and checkpoints stay local
+results/taxonomy/probs/
+results/archive/
+logs/*.log
+.pytest_cache/
+*.keras
