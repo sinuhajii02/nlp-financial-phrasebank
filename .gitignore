@@ -3,3 +3,6 @@ models/
 .venv/
 .DS_Store
 .cache/
+# practical datasets (too big for GitHub, only the notebooks are kept)
+practicals/**/*.csv
+practicals/**/*.txt
