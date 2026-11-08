@@ -1,8 +1,6 @@
-"""Error-taxonomy tags: rule-based tags for the numerical and mixed categories,
-plus the manual tags from the coding sheets merged into the train and val splits.
-
-Run `python -m utils.taxonomy` from the repo root to print the category counts.
-"""
+# Taxonomy tags for the taxonomy-guided training.
+# numerical and mixed get simple rules (so they also exist on val), the other categories come from the coding sheets.
+# Run "python -m utils.taxonomy" from the repo root to print the counts.
 import re
 from pathlib import Path
 
@@ -20,10 +18,10 @@ RULE_CATEGORIES = ["numerical", "mixed"]
 SHEET_COLUMNS = {"ambiguous_label": "ambiguous", "domain_required": "domain", "mixed_sentiment": "mixed",
                  "corporate_action": "company_event", "numerical_comparison": "numerical"}
 
-# --- numerical: a figure that isn't just a year, plus language comparing it with another figure or period
-_YEAR = re.compile(r"^(19|20)\d\d$")
-_NUMBER = re.compile(r"\d+(?:[.,]\d+)?")
-_COMPARISON_CUES = re.compile(
+# numerical: a number that is not a year, and words that compare it with another number or period
+YEAR = re.compile(r"^(19|20)\d\d$")
+NUMBER = re.compile(r"\d+(?:[.,]\d+)?")
+COMPARISON_WORDS = re.compile(
     r"\bcompared (?:to|with)\b|\bagainst\b|\bversus\b|\bvs\b\.?|\bthan\b"
     r"|\byear-ago\b|\byear-on-year\b|\by-o-y\b|\ba year (?:earlier|ago|before)\b"
     r"|\b(?:previous|prior|last|preceding) (?:year|quarter|period|financial year)\b"
@@ -31,46 +29,45 @@ _COMPARISON_CUES = re.compile(
     r"|%\s+(?:over|on|from)\b",
     re.IGNORECASE)
 
-# --- mixed: positive and negative movement/evaluation words in the same sentence.
-# "loss"/"profit" are left out on purpose: "loss increased" is one negative fact, not a mix.
-_POSITIVE = re.compile(
+# mixed: a positive and a negative word in the same sentence.
+# "loss" and "profit" are left out: "loss increased" is one negative thing, not a mix
+POSITIVE_WORDS = re.compile(
     r"\b(?:increas(?:e|ed|es|ing)|ris(?:e|es|ing|en)|rose|gr[eo]w(?:s|n|th|ing)?|improv(?:e|ed|es|ing|ement)"
     r"|higher|gain(?:s|ed)?|strong(?:er|est)?|boost(?:s|ed|ing)?|record|surg(?:e|ed)|jump(?:s|ed)?"
     r"|climb(?:s|ed)?|exceed(?:s|ed)?|lift(?:s|ed)?|recover(?:s|ed|y)?|up\s+(?:by\s+)?\d)\b",
     re.IGNORECASE)
-_NEGATIVE = re.compile(
+NEGATIVE_WORDS = re.compile(
     r"\b(?:decreas(?:e|ed|es|ing)|declin(?:e|ed|es|ing)|f[ae]ll(?:s|en|ing)?|drop(?:s|ped)?|lower|weak(?:er|ened)?"
     r"|slid(?:e|es)?|cuts?|worse(?:ned)?|plung(?:e|ed)|tough|negative|below|down\s+(?:by\s+)?\d)\b",
     re.IGNORECASE)
 
 
-def _has_figure(sentence):
-    return any(not _YEAR.match(n) for n in _NUMBER.findall(sentence))
+def has_figure(sentence):
+    return any(not YEAR.match(n) for n in NUMBER.findall(sentence))
 
 
-def _has_from_figure(sentence):
+def has_from_figure(sentence):
     # "from EUR9 .6 m", "from 310 crowns": a non-year figure within 3 tokens after "from"
     tokens = sentence.split()
     for i, tok in enumerate(tokens):
         if tok.lower() == "from":
             for nxt in tokens[i + 1:i + 4]:
-                if any(not _YEAR.match(n) for n in _NUMBER.findall(nxt)):
+                if any(not YEAR.match(n) for n in NUMBER.findall(nxt)):
                     return True
     return False
 
 
 def rule_tag(sentence):
-    """Rule-based tags for one sentence: a list with "numerical" and/or "mixed" (empty if neither)."""
+    # returns [], ["numerical"], ["mixed"] or both
     tags = []
-    if _has_figure(sentence) and (_COMPARISON_CUES.search(sentence) or _has_from_figure(sentence)):
+    if has_figure(sentence) and (COMPARISON_WORDS.search(sentence) or has_from_figure(sentence)):
         tags.append("numerical")
-    if _POSITIVE.search(sentence) and _NEGATIVE.search(sentence):
+    if POSITIVE_WORDS.search(sentence) and NEGATIVE_WORDS.search(sentence):
         tags.append("mixed")
     return tags
 
 
 def add_rule_tags(df):
-    """Copy of df with 0/1 columns rule_numerical and rule_mixed."""
     out = df.copy()
     tags = out.sentence.map(rule_tag)
     for cat in RULE_CATEGORIES:
@@ -79,8 +76,8 @@ def add_rule_tags(df):
 
 
 def load_manual_tags(tag_paths=DEFAULT_TAG_PATHS):
-    """One row per coded train sentence (indexed by train_idx), 0/1 per category.
-    A sentence coded by several sheets gets a category if any sheet marked it."""
+    # one row per coded train sentence, 0/1 per category.
+    # a sentence on two sheets gets a category if one of them ticked it
     if isinstance(tag_paths, (str, Path)):
         tag_paths = [tag_paths]
     sheets = []
@@ -97,12 +94,8 @@ def load_manual_tags(tag_paths=DEFAULT_TAG_PATHS):
 
 
 def load_tagged_splits(tag_paths=DEFAULT_TAG_PATHS, data_dir=DATA_DIR):
-    """Train and val dataframes with rule tags and the merged manual tags.
-
-    Columns added: rule_numerical, rule_mixed, coded (sentence is in a coding sheet),
-    and manual_<category> for the five categories (<NA> where the sentence was not coded).
-    The coding sheets only cover train (train_idx = row in train.csv), so val has coded = False everywhere.
-    """
+    # train and val with the rule tags (rule_*) and the hand-coded tags (manual_*, empty if not coded).
+    # the coding sheets only have train sentences, so coded is False for all of val
     train = pd.read_csv(Path(data_dir) / "train.csv")
     val = pd.read_csv(Path(data_dir) / "val.csv")
     manual = load_manual_tags(tag_paths)
@@ -126,8 +119,7 @@ DEFAULT_CAT_WEIGHTS = {"ambiguous": 0.5, "numerical": 2.0, "mixed": 2.0, "compan
 
 
 def category_matrix(df):
-    """Boolean frame, one column per category: the manual tag where the sentence was coded,
-    otherwise the rule tag (numerical/mixed only; the other categories have no rule, so False)."""
+    # True/False per category: the hand-coded tag if the sentence was coded, otherwise the rule tag
     out = pd.DataFrame(False, index=df.index, columns=CATEGORIES)
     coded = df["coded"].to_numpy(bool) if "coded" in df else np.zeros(len(df), bool)
     for cat in CATEGORIES:
@@ -140,12 +132,8 @@ def category_matrix(df):
 
 
 def make_weights(df, cat_weight=DEFAULT_CAT_WEIGHTS):
-    """Per-sample float32 weights from a {category: weight} dict (df from load_tagged_splits).
-
-    Sentences with no category, or only categories missing from cat_weight, get 1.0.
-    With several categories: if any of them down-weights (< 1) the smallest weight is used,
-    so ambiguous / possibly mislabelled sentences stay down-weighted; otherwise the largest.
-    """
+    # one weight per sentence. No category = 1.0.
+    # with several categories we take the smallest weight if one is below 1 (so ambiguous stays low), else the largest
     unknown = set(cat_weight) - set(CATEGORIES)
     if unknown:
         raise ValueError(f"unknown categories {sorted(unknown)}, expected some of {CATEGORIES}")
@@ -159,7 +147,6 @@ def make_weights(df, cat_weight=DEFAULT_CAT_WEIGHTS):
 
 
 def category_counts(df):
-    """Rule-tag counts over the whole split and manual-tag counts over its coded sentences."""
     rows = {}
     for cat in CATEGORIES:
         rule_col = f"rule_{cat}"

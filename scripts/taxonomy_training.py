@@ -1,16 +1,10 @@
-"""Taxonomy-weighted continued training vs a matched random control, over 5 seeds.
-
-Both arms start from the same baseline checkpoint and use the same seed. The control gets exactly the
-same weights as the targeted arm (same count, same values), just on randomly chosen train rows.
-Scored on val only: macro-F1 overall / hard / non-hard / per taxonomy category, with group sizes.
-Per-run scores go to --out, mean and std across seeds to --summary.
-
-    python scripts/taxonomy_training.py                       # frozen FinBERT CNN, lr 1e-5
-    python scripts/taxonomy_training.py --lr 3e-5 --seeds 42 43
-    python scripts/taxonomy_training.py --only numerical      # boost one category, the rest stay at 1.0
-    python scripts/taxonomy_training.py --ablation            # all categories together, then each on its own
-    python scripts/taxonomy_training.py --summary-only        # rebuild the table from --out
-"""
+# Taxonomy-guided training vs a random control with the same weights (report section 5.6).
+# Both start from the same saved baseline and use the same seed. Scored on val only.
+#
+#   python scripts/taxonomy_training.py                       # lr 1e-5
+#   python scripts/taxonomy_training.py --lr 3e-5 --seeds 42 43
+#   python scripts/taxonomy_training.py --ablation            # all categories, then each one alone
+#   python scripts/taxonomy_training.py --summary-only        # only rebuild the tables
 import argparse
 import os
 import sys
@@ -78,7 +72,7 @@ def save_runs(path, new_rows):
 
 
 def main():
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser = argparse.ArgumentParser(description="Taxonomy-guided training vs random control")
     parser.add_argument("--seeds", type=int, nargs="+", default=SEEDS)
     parser.add_argument("--lr", type=float, default=1e-5)
     parser.add_argument("--epochs", type=int, default=20)

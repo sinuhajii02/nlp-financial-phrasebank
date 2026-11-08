@@ -1,4 +1,4 @@
-"""Continued training from one fixed baseline checkpoint (taxonomy-weighted vs matched random control)."""
+# Continued training from one saved baseline (taxonomy weights vs the same weights on random sentences).
 from pathlib import Path
 
 import numpy as np
@@ -13,8 +13,8 @@ STOP_MODES = {"val_loss": "min", "val_macro_f1": "max"}   # early-stopping metri
 
 
 def ensure_baseline_checkpoint(path, embedding_matrix, X_train, y_train, X_val, y_val, trainable=False):
-    """Train the baseline once (seed BASELINE_SEED) and save it to `path`. An existing file is never
-    overwritten, so every continued-training run starts from the same weights."""
+    # train the baseline once and save it. If the file is already there we keep it,
+    # so every run starts from the same weights
     path = Path(path)
     if path.exists():
         return path
@@ -29,10 +29,8 @@ def ensure_baseline_checkpoint(path, embedding_matrix, X_train, y_train, X_val, 
 
 def continue_training(checkpoint_path, X_train, y_train, X_val, y_val, sample_weight=None,
                       learning_rate=1e-5, epochs=20, patience=3, batch_size=32, verbose=0, stop_on="val_loss"):
-    """Load the baseline checkpoint, compile with Adam(learning_rate) and fit with sample_weight,
-    early stopping on `stop_on` ("val_loss" or "val_macro_f1"); the best epoch's weights are restored.
-    The checkpoint itself (epoch 0) is not a candidate: at least one epoch is always kept.
-    Returns (model, history). Call keras.utils.set_random_seed(seed) first so the run can be reproduced."""
+    # load the saved baseline and train it further with sample_weight.
+    # early stopping on val_loss or val_macro_f1, the best epoch is kept (always at least one epoch)
     if stop_on not in STOP_MODES:
         raise ValueError(f"stop_on must be one of {list(STOP_MODES)}")
     model = keras.models.load_model(checkpoint_path, compile=False)
@@ -53,8 +51,7 @@ def continue_training(checkpoint_path, X_train, y_train, X_val, y_val, sample_we
 
 
 def matched_random_weights(target_weights, seed):
-    """Control weights: the same multiset of non-1.0 weights as target_weights, put on the same number
-    of randomly chosen train rows (chosen with `seed`); every other row gets 1.0."""
+    # random control: the same weights as the targeted run, but on randomly chosen sentences
     target_weights = np.asarray(target_weights, dtype=np.float32)
     changed = target_weights[target_weights != 1.0]
     rng = np.random.default_rng(seed)
