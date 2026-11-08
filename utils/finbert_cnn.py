@@ -2,25 +2,17 @@
 # Set keras.utils.set_random_seed(BASELINE_SEED) before training so results can be reproduced.
 import numpy as np
 import pandas as pd
-from sklearn.metrics import accuracy_score, f1_score
+from sklearn.metrics import f1_score
 from sklearn.model_selection import StratifiedKFold
 from tensorflow import keras
 from tensorflow.keras import layers
 
-from utils.hard_samples_identify import get_hard_sample_indices, get_hard_sample_indices_by_margin
 from utils.preprocessing import LABELS
 
 FINBERT_NAME = "yiyanghkust/finbert-pretrain"
 MAX_LEN = 64
 BASELINE_SEED = 42
-PERCENTILES = [10, 20, 30, 40, 50]
 SEEDS = [42, 43, 44, 45, 46]
-
-# settings for the old fine-tuning phase (continue training a copy of the baseline)
-FINE_TUNE_LR = 1e-4
-FINE_TUNE_EPOCHS = 10
-FINE_TUNE_PATIENCE = 1
-DEFAULT_WEIGHT = 1.5
 
 
 def load_finbert_inputs(*dfs, model_name=FINBERT_NAME):
@@ -104,16 +96,6 @@ def oof_probabilities(embedding_matrix, X_train, y_train, trainable=False):
     return oof
 
 
-def select_hard(oof_probs, val_probs, percentiles=PERCENTILES):
-    # one margin cutoff per percentile, computed on train and used as is on val
-    hard_selection = {}
-    for percentile in percentiles:
-        train_indices, train_cutoff = get_hard_sample_indices(oof_probs, percentile)
-        val_indices = get_hard_sample_indices_by_margin(val_probs, train_cutoff)
-        hard_selection[percentile] = {"train_indices": train_indices, "val_indices": val_indices,
-                                      "train_cutoff": train_cutoff}
-    return hard_selection
-
 
 def load_hard_selection(percentile, hard_dir="../results/hard_samples"):
     # load the saved P10-P50 hard sets (retraining would give slightly different ones)
@@ -121,36 +103,3 @@ def load_hard_selection(percentile, hard_dir="../results/hard_samples"):
     val = pd.read_csv(f"{hard_dir}/val_hard.csv")
     column = f"is_hard_p{percentile}"
     return np.where(train[column])[0], np.where(val[column])[0]
-
-
-def fine_tune(baseline_model, X_train, y_train, X_val, y_val, weighted_indices, seed, weight=DEFAULT_WEIGHT):
-    # copy of the baseline, trained a bit more with weighted_indices up-weighted
-    keras.utils.set_random_seed(seed)
-    model = keras.models.clone_model(baseline_model)
-    model.set_weights(baseline_model.get_weights())
-    model.compile(optimizer=keras.optimizers.Adam(FINE_TUNE_LR), loss="categorical_crossentropy", metrics=["accuracy"])
-
-    weights = np.ones(len(y_train))
-    weights[weighted_indices] = weight
-    early_stop = keras.callbacks.EarlyStopping(monitor="val_macro_f1", mode="max", patience=FINE_TUNE_PATIENCE,
-                                               restore_best_weights=True)
-    model.fit(X_train, keras.utils.to_categorical(y_train, len(LABELS)), sample_weight=weights,
-              validation_data=(X_val, keras.utils.to_categorical(y_val, len(LABELS))),
-              epochs=FINE_TUNE_EPOCHS, batch_size=32, verbose=0,
-              callbacks=[MacroF1Callback(X_val, y_val), early_stop])
-    return model
-
-
-def random_indices(n_train, n, seed):
-    return np.random.default_rng(seed).choice(n_train, size=n, replace=False)
-
-
-def score_model(model, X, y, hard_indices):
-    probabilities = model.predict(X, batch_size=32, verbose=0)
-    predictions = probabilities.argmax(axis=1)
-    scores = {}
-    scores["accuracy"] = accuracy_score(y, predictions)
-    scores["macro_f1"] = f1_score(y, predictions, average="macro")
-    scores["hard_accuracy"] = accuracy_score(y[hard_indices], predictions[hard_indices])
-    scores["hard_macro_f1"] = f1_score(y[hard_indices], predictions[hard_indices], average="macro")
-    return scores
