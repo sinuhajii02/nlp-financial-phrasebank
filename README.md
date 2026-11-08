@@ -32,3 +32,9 @@ python scripts/taxonomy_training.py --lr 3e-5 --stop-on val_macro_f1   # targete
 python scripts/taxonomy_training.py --ablation                         # all categories, then each one alone
 python scripts/taxonomy_training.py --summary-only                     # rebuild the tables, no training
 ```
+## Use of AI tools
+
+The taxonomy-guided training code was written with an AI coding assistant: `utils/taxonomy.py`, `utils/taxonomy_eval.py`,
+`utils/continued_training.py` and `scripts/taxonomy_training.py`. We reviewed it and ran the experiments ourselves.
+For the rest of the project we used AI tools as an assistant (debugging, restructuring code, and checking that the numbers
+in the report match the code). The experiment design, the runs and the analysis are our own.
