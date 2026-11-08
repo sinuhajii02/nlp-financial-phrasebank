@@ -8,8 +8,6 @@ from utils.hard_samples_identify import (
     split_dataset_by_margin,
 )
 
-# To run use pytest hard_sample_test.py on /test
-
 # Unit Testing
 def test_basic():
     probs = np.array([
